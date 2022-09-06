@@ -20,10 +20,12 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
+  const [history, setHistory] = useState([])
 
   const generateRandom = () => {
     const no = anecdotes.length
     const randomId = Math.floor(Math.random() * no)
+    setHistory(history.concat(selected))
     setSelected(randomId)
   }
 
