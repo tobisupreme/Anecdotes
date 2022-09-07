@@ -1,10 +1,10 @@
 import { useState } from 'react'
 
-const Button = ({ onClick }) => {
+const Button = ({ onClick, text }) => {
   return (
-    <div>
-      <button onClick={onClick}>next anecdote</button>
-    </div>
+    <>
+      <button onClick={onClick}>{text}</button>
+    </>
   )
 }
 
@@ -32,7 +32,10 @@ const App = () => {
   return (
     <div>
       {anecdotes[selected]}
-      <Button onClick={generateRandom} />
+      <div>
+        <Button onClick={generateRandom} text="vote" />
+        <Button onClick={generateRandom} text="next anecdote" />
+      </div>
     </div>
   )
 }
