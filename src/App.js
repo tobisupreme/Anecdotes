@@ -1,12 +1,35 @@
 import { useState } from 'react'
 
+const DisplayAnecdotes = ({ title, anecdote }) => {
+  return (
+    <div>
+      <h1> {title} </h1>
+      <p>{anecdote}</p>
+    </div>
+  )
+}
+
+const DisplayMostVoted = ({ title, anecdote }) => {
+  if (!anecdote) return
+  return (
+    <div>
+      <h1> {title} </h1>
+      <p>{anecdote}</p>
+    </div>
+  )
+}
+
 const DisplayVotes = ({ points }) => {
   if (!points) return
   let s = 's'
-  if (points == 1) {
+  if (points === 1) {
     s = ''
-  }  
-  return <div>has {points} vote{s}</div>
+  }
+  return (
+    <div>
+      has {points} vote{s}
+    </div>
+  )
 }
 
 const Button = ({ onClick, text }) => {
@@ -51,14 +74,30 @@ const App = () => {
     }
   }
 
+  const getMostVotedAnecdote = () => {
+    let home = Object.keys(points)
+    let max = points[home[0]]
+    for (let i = 1; i < home.length; i++) {
+      if (points[home[i]] > max) {
+        max = points[home[i]]
+      }
+    }
+    for (let key in points) {
+      if (points[key] === max) {
+        return key
+      }
+    }
+  }
+
   return (
     <div>
-      {anecdotes[selected]}
+      <DisplayAnecdotes title="Anecdote of the day" anecdote={anecdotes[selected]} />
       <DisplayVotes points={points[selected]} />
       <div>
         <Button onClick={savePoint} text="vote" />
         <Button onClick={generateRandom} text="next anecdote" />
       </div>
+      <DisplayMostVoted title="Anecdote with most votes" anecdote={anecdotes[getMostVotedAnecdote()]} />
     </div>
   )
 }
