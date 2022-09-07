@@ -1,5 +1,14 @@
 import { useState } from 'react'
 
+const DisplayVotes = ({ points }) => {
+  if (!points) return
+  let s = 's'
+  if (points == 1) {
+    s = ''
+  }  
+  return <div>has {points} vote{s}</div>
+}
+
 const Button = ({ onClick, text }) => {
   return (
     <>
@@ -21,6 +30,7 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
   const [history, setHistory] = useState([])
+  const [points, setPoints] = useState({})
 
   const generateRandom = () => {
     const no = anecdotes.length
@@ -29,11 +39,24 @@ const App = () => {
     setSelected(randomId)
   }
 
+  const savePoint = () => {
+    if (!points[selected]) {
+      const copy = { ...points }
+      copy[selected] = 1
+      setPoints(copy)
+    } else {
+      const copy = { ...points }
+      copy[selected] += 1
+      setPoints(copy)
+    }
+  }
+
   return (
     <div>
       {anecdotes[selected]}
+      <DisplayVotes points={points[selected]} />
       <div>
-        <Button onClick={generateRandom} text="vote" />
+        <Button onClick={savePoint} text="vote" />
         <Button onClick={generateRandom} text="next anecdote" />
       </div>
     </div>
